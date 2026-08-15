@@ -1,0 +1,118 @@
+@if (pageSansShell()) {
+  <router-outlet />
+} @else {
+  <div class="shell">
+    @if (sidebarOuverte()) {
+      <div class="sidebar-backdrop" (click)="toggleSidebar()"></div>
+    }
+
+    <aside class="sidebar" [class.open]="sidebarOuverte()">
+      <a routerLink="/dashboard" class="sidebar-brand">
+        <span class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .963L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+          </svg>
+        </span>
+        <span class="brand-text">Netto<span class="brand-accent">Lik</span></span>
+      </a>
+
+      <nav class="sidebar-nav">
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          <span>Tableau de bord</span>
+        </a>
+
+        <a routerLink="/services" routerLinkActive="active" class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          <span>{{ authService.isGestionnaire() ? 'Services' : 'Catalogue' }}</span>
+        </a>
+
+        <a routerLink="/tickets" routerLinkActive="active" class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+          <span>{{ authService.isGestionnaire() ? 'Tickets' : 'Mes commandes' }}</span>
+        </a>
+
+        @if (authService.isGestionnaire()) {
+          <a routerLink="/notifications" routerLinkActive="active" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span>Notifications</span>
+          </a>
+        }
+      </nav>
+
+      <button class="sidebar-logout" (click)="demanderDeconnexion()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Déconnexion</span>
+      </button>
+    </aside>
+
+    <div class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger-btn" (click)="toggleSidebar()" [attr.aria-label]="'Ouvrir le menu'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <h1 class="page-title">{{ pageTitre() }}</h1>
+        </div>
+
+        <div class="topbar-right">
+          <button class="theme-toggle" (click)="themeService.toggle()" [attr.aria-label]="'Changer de thème'">
+            @if (themeService.theme() === 'dark') {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            } @else {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            }
+          </button>
+
+          @if (authService.isGestionnaire()) {
+            <a routerLink="/notifications" class="bell-btn" [attr.aria-label]="'Notifications'">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+            </a>
+          }
+          @if (confirmationDeconnexionOuverte()) {
+          <app-modal titre="Déconnexion" (fermer)="annulerDeconnexion()">
+            <p class="confirm-message">Voulez-vous vraiment vous déconnecter ?</p>
+            <div class="confirm-actions">
+              <button class="btn-annuler" (click)="annulerDeconnexion()">Annuler</button>
+              <button class="btn-confirmer" (click)="confirmerDeconnexion()">Se déconnecter</button>
+            </div>
+          </app-modal>
+        }
+
+          <div class="user-block">
+            <span class="user-avatar">{{ initiales() }}</span>
+            <div class="user-info">
+              <span class="user-name">{{ authService.currentUser()?.name }}</span>
+              <span class="user-role">{{ authService.isGestionnaire() ? 'Gestionnaire' : 'Client' }}</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <router-outlet />
+      </main>
+    </div>
+  </div>
+}

@@ -1,0 +1,288 @@
+<nav class="landing-nav">
+  <a routerLink="/" class="brand">
+    <span class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .963L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+      </svg>
+    </span>
+    <span class="brand-text">Netto<span class="brand-accent">Lik</span></span>
+  </a>
+
+  <div class="landing-links">
+    <a href="#fonctionnalites">Fonctionnalités</a>
+    <a href="#pourquoi">Pourquoi NettoLik</a>
+    <a href="#comment-ca-marche">Comment ça marche</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <div class="landing-right">
+    <button class="theme-toggle-nav" (click)="themeService.toggle()" [attr.aria-label]="'Changer de thème'">
+      @if (themeService.theme() === 'dark') {
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      } @else {
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      }
+    </button>
+
+    @if (authService.isAuthenticated()) {
+      <a routerLink="/dashboard" class="btn-nav-cta">Tableau de bord</a>
+    } @else {
+      <a routerLink="/login" class="btn-nav-cta">Se connecter</a>
+    }
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="pill">Projet académique — L3 Génie Logiciel, ISI Dakar</span>
+
+    <h1>Vos commandes, <span class="accent-text">suivies</span><br />du dépôt au retrait.</h1>
+
+    <p class="subtitle">
+      NettoLik dématérialise le dépôt des commandes de nettoyage, leur suivi et l'encaissement —
+      vos clients sont informés automatiquement à chaque étape.
+    </p>
+
+    <div class="cta-row">
+      @if (authService.isAuthenticated()) {
+        <a routerLink="/dashboard" class="btn-cta-primary">Accéder à la plateforme</a>
+      } @else {
+        <a routerLink="/register" class="btn-cta-primary">Accéder à la plateforme</a>
+      }
+      <a href="#comment-ca-marche" class="btn-cta-secondary">Voir comment ça marche</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="visual-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .963L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="stats-band">
+  <div class="stat">
+    <p class="stat-value">100%</p>
+    <p class="stat-label">des commandes dématérialisées</p>
+  </div>
+  <div class="stat">
+    <p class="stat-value">0</p>
+    <p class="stat-label">ticket perdu grâce au suivi numérique</p>
+  </div>
+  <div class="stat">
+    <p class="stat-value">24/7</p>
+    <p class="stat-label">accès au suivi de vos commandes</p>
+  </div>
+  <div class="stat">
+    <p class="stat-value">4</p>
+    <p class="stat-label">étapes claires, du dépôt au retrait</p>
+  </div>
+</section>
+
+<section class="pourquoi" id="pourquoi">
+  <h2>Pourquoi NettoLik ?</h2>
+  <p class="section-subtitle">Une gestion pensée pour les pressings et laveries de quartier.</p>
+
+  <div class="pourquoi-grid">
+    <div class="pourquoi-item">
+      <span class="pourquoi-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </span>
+      <h3>Gain de temps</h3>
+      <p>Fini les carnets papier : le dépôt, le suivi et l'encaissement se font en quelques clics.</p>
+    </div>
+    <div class="pourquoi-item">
+      <span class="pourquoi-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </span>
+      <h3>Zéro ticket perdu</h3>
+      <p>Chaque commande est numérotée, tracée et consultable à tout moment par le client comme par le gestionnaire.</p>
+    </div>
+    <div class="pourquoi-item">
+      <span class="pourquoi-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+        </svg>
+      </span>
+      <h3>Clients satisfaits</h3>
+      <p>Notifications automatiques et reçu PDF téléchargeable : vos clients savent toujours où en est leur commande.</p>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="fonctionnalites">
+  <h2>Ce que NettoLik fait pour vous</h2>
+  <p class="section-subtitle">Six fonctions pensées pour simplifier la gestion au quotidien.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+      </span>
+      <h3>Dépôt en ligne</h3>
+      <p>Le client choisit ses services et quantités, la commande est enregistrée instantanément.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+      </span>
+      <h3>Suivi en temps réel</h3>
+      <p>Chaque ticket affiche son statut exact : reçu, en traitement, prêt ou récupéré.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+      </span>
+      <h3>Encaissement simple</h3>
+      <p>Le gestionnaire enregistre le paiement au dépôt ou au retrait, sans double saisie.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </span>
+      <h3>Notifications automatiques</h3>
+      <p>Email de confirmation au client, alerte au gestionnaire à chaque nouvelle commande.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </span>
+      <h3>Reçu PDF</h3>
+      <p>Un reçu téléchargeable est généré automatiquement dès que la commande est prête.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+      </span>
+      <h3>Statistiques</h3>
+      <p>Recette du jour, tickets par mois et chiffre d'affaires par service en un coup d'œil.</p>
+    </div>
+  </div>
+</section>
+
+<section class="comment-ca-marche" id="comment-ca-marche">
+  <h2>Comment ça marche</h2>
+  <p class="section-subtitle">Le cycle de vie complet d'un ticket, du dépôt au retrait.</p>
+
+  <div class="etapes-grid">
+    <div class="etape">
+      <div class="etape-icon-wrap">
+        <span class="etape-numero">1</span>
+        <span class="etape-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+          </svg>
+        </span>
+      </div>
+      <h3>Reçu</h3>
+      <p>Le client dépose sa commande en ligne ou au comptoir ; elle est enregistrée immédiatement.</p>
+    </div>
+    <div class="etape">
+      <div class="etape-icon-wrap">
+        <span class="etape-numero">2</span>
+        <span class="etape-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+        </span>
+      </div>
+      <h3>En traitement</h3>
+      <p>Le gestionnaire fait évoluer le statut pendant le lavage ou le repassage.</p>
+    </div>
+    <div class="etape">
+      <div class="etape-icon-wrap">
+        <span class="etape-numero">3</span>
+        <span class="etape-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </span>
+      </div>
+      <h3>Prêt</h3>
+      <p>Email automatique au client, avec le reçu PDF généré et prêt à télécharger.</p>
+    </div>
+    <div class="etape">
+      <div class="etape-icon-wrap">
+        <span class="etape-numero">4</span>
+        <span class="etape-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </span>
+      </div>
+      <h3>Récupéré</h3>
+      <p>Le paiement est enregistré, le ticket est clôturé.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Questions fréquentes</h2>
+
+  <div class="faq-list">
+    @for (item of faqs; track item.question; let i = $index) {
+      <div class="faq-item" [class.ouvert]="faqOuverte() === i">
+        <button class="faq-question" (click)="toggleFaq(i)">
+          <span>{{ item.question }}</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        @if (faqOuverte() === i) {
+          <p class="faq-reponse">{{ item.reponse }}</p>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<section class="cta-banner" id="contact">
+  <h2>Une question sur NettoLik ?</h2>
+  <p>L'équipe projet reste disponible pour toute demande d'accès ou d'assistance.</p>
+
+  <div class="contact-row">
+    <span class="contact-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+      </svg>
+      contact&#64;nettolik.sn
+    </span>
+    <span class="contact-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+      Dakar, Sénégal
+    </span>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2026 NettoLik — Projet académique, ISI Dakar</p>
+</footer>

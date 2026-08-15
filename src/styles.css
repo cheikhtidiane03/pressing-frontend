@@ -1,0 +1,121 @@
+/* ===== Design tokens : thème clair (par défaut) et sombre (.dark) ===== */
+:root {
+  --bg: #f7f8fc;
+  --surface: #ffffff;
+  --surface-alt: #f1f2f9;
+  --text: #17181f;
+  --text-muted: #6b7280;
+  --border: #e6e7f0;
+
+  --primary: #7c74e8;
+  --primary-hover: #655cd9;
+  --primary-soft: #eeedfd;
+  --primary-text-on: #ffffff;
+
+  --accent: #f59e0b;
+  --accent-soft: #fef3dd;
+
+  --success: #16a34a;
+  --success-soft: #e7f8ee;
+  --danger: #dc2626;
+  --danger-soft: #fdecec;
+
+  --dark-pill: #17181f;
+  --dark-pill-text: #ffffff;
+
+  --shadow-sm: 0 1px 3px rgba(23, 24, 31, 0.06), 0 1px 2px rgba(23, 24, 31, 0.04);
+  --shadow-md: 0 12px 32px rgba(23, 24, 31, 0.08);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  color-scheme: light;
+}
+
+html.dark {
+  --bg: #0d0e14;
+  --surface: #16171f;
+  --surface-alt: #1c1e29;
+  --text: #eceef5;
+  --text-muted: #9296a6;
+  --border: #2a2c3a;
+
+  --primary: #8b83ec;
+  --primary-hover: #a29bf0;
+  --primary-soft: #21203f;
+  --primary-text-on: #ffffff;
+
+  --accent: #f6b73c;
+  --accent-soft: #332707;
+
+  --success: #34d17c;
+  --success-soft: #10301f;
+  --danger: #f0685c;
+  --danger-soft: #34181a;
+
+  --dark-pill: #eceef5;
+  --dark-pill-text: #17181f;
+
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 14px 36px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+/* ===== Sidebar (toujours sombre, indépendante du thème clair/sombre) ===== */
+:root {
+  --sidebar-bg: #15132b;
+  --sidebar-text: rgba(255, 255, 255, 0.72);
+  --sidebar-text-active: #ffffff;
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+  --sidebar-active-bg: var(--accent);
+  --sidebar-active-text: #1a1408;
+}
+
+/* ===== Loader générique réutilisé sur toutes les pages ===== */
+.spinner-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

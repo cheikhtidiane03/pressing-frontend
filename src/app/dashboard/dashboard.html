@@ -1,0 +1,103 @@
+<div class="container">
+  <div class="banner">
+    <h1>Salut {{ authService.currentUser()?.name }}</h1>
+    <p>
+      @if (authService.isGestionnaire()) {
+        Vue d'ensemble de l'activité du pressing.
+      } @else {
+        Suis l'avancement de tes commandes.
+      }
+    </p>
+  </div>
+
+  @if (chargement()) {
+    <div class="spinner-wrap"><div class="spinner"></div></div>
+  } @else {
+    @if (authService.isGestionnaire()) {
+      @if (jour(); as j) {
+        <div class="stats-row">
+          <div class="stat-card">
+            <span class="stat-label">Tickets créés</span>
+            <span class="stat-value">{{ j.tickets_crees }}</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Récupérés</span>
+            <span class="stat-value">{{ j.tickets_recuperes }}</span>
+          </div>
+          <div class="stat-card stat-highlight">
+            <span class="stat-label">Recette du jour</span>
+            <span class="stat-value">{{ j.recette_du_jour }} F</span>
+          </div>
+        </div>
+      }
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <h2>Tickets / mois</h2>
+          <div class="chart-wrap"><canvas #ticketsCanvas></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h2>CA par service</h2>
+          <div class="chart-wrap"><canvas #caCanvas></canvas></div>
+        </div>
+      </div>
+    } @else {
+      <div class="charts-row">
+        <div class="chart-card">
+          <h2>Mes commandes par statut</h2>
+          <div class="chart-wrap"><canvas #statutCanvas></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h2>Mes commandes par mois</h2>
+          <div class="chart-wrap"><canvas #moisCanvas></canvas></div>
+        </div>
+      </div>
+    }
+
+    <div class="recents-card">
+      <div class="recents-header">
+        <h2>Tickets récents</h2>
+        <a routerLink="/tickets" class="btn-voir-tous">Voir tous</a>
+      </div>
+
+      <div class="table-wrap">
+        <table class="recents-table">
+          <thead>
+            <tr>
+              <th>N° Ticket</th>
+              @if (authService.isGestionnaire()) {
+                <th>Client</th>
+              }
+              <th>Statut</th>
+              <th>Montant</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (t of ticketsRecents(); track t.id) {
+              <tr>
+                <td>{{ t.numero }}</td>
+                @if (authService.isGestionnaire()) {
+                  <td>{{ t.client?.name }}</td>
+                }
+                <td><span class="badge badge-{{ t.statut }}">{{ labels[t.statut] }}</span></td>
+                <td>{{ t.montant_total }} F</td>
+                <td>{{ t.created_at ? (t.created_at | slice:0:10) : '—' }}</td>
+                <td>
+                  <a [routerLink]="['/tickets', t.id]" class="btn-voir" aria-label="Voir">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </a>
+                </td>
+              </tr>
+            } @empty {
+              <tr><td [attr.colspan]="authService.isGestionnaire() ? 6 : 5" class="empty">Aucun ticket pour le moment.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

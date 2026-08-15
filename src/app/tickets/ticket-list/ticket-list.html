@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="header-row">
+    <h1>{{ authService.isGestionnaire() ? 'Tous les tickets' : 'Mes commandes' }}</h1>
+    @if (authService.isClient()) {
+      <button class="btn-primary" (click)="modalOuvert.set(true)">+ Déposer une commande</button>
+    }
+  </div>
+
+  @if (authService.isGestionnaire()) {
+    <select class="filtre-select" [value]="filtreStatut()" (change)="onFiltreChange($any($event.target).value)">
+      <option value="">Tous les statuts</option>
+      @for (s of statuts; track s) {
+        <option [value]="s">{{ labels[s] }}</option>
+      }
+    </select>
+  }
+
+  @if (chargement()) {
+    <div class="spinner-wrap"><div class="spinner"></div></div>
+  } @else {
+    <div class="table-wrap">
+    <table class="tickets-table">
+      <thead>
+        <tr>
+          <th>N° Ticket</th>
+          @if (authService.isGestionnaire()) {
+            <th>Client</th>
+          }
+          <th>Statut</th>
+          <th>Total</th>
+          <th>Payé</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (t of tickets(); track t.id) {
+          <tr class="clickable-row" (click)="voirDetail(t.id)">
+            <td>{{ t.numero }}</td>
+            @if (authService.isGestionnaire()) {
+              <td>{{ t.client?.name }}</td>
+            }
+            <td><span class="badge badge-{{ t.statut }}">{{ labels[t.statut] }}</span></td>
+            <td>{{ t.montant_total }} FCFA</td>
+            <td>{{ t.paye ? 'Oui' : 'Non' }}</td>
+          </tr>
+        } @empty {
+          <tr><td [attr.colspan]="authService.isGestionnaire() ? 5 : 4" class="empty">Aucun ticket pour le moment.</td></tr>
+        }
+      </tbody>
+    </table>
+    </div>
+  }
+</div>
+
+@if (modalOuvert()) {
+  <app-modal titre="Déposer une commande" (fermer)="modalOuvert.set(false)">
+    <app-deposer-ticket (enregistre)="onTicketDepose($event)" (annule)="modalOuvert.set(false)" />
+  </app-modal>
+}

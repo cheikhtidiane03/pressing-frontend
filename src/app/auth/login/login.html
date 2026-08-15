@@ -1,0 +1,53 @@
+<div class="auth-page">
+  <button class="theme-toggle-floating" (click)="themeService.toggle()" [attr.aria-label]="'Changer de thème'">
+    @if (themeService.theme() === 'dark') {
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    } @else {
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    }
+  </button>
+
+  <a routerLink="/" class="auth-logo">
+    <span class="logo-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .963L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+      </svg>
+    </span>
+    <span class="logo-text">Netto<span class="logo-accent">Lik</span></span>
+  </a>
+
+  <div class="auth-card">
+    <h1>Connexion</h1>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+      <label for="email">Email</label>
+      <input type="email" formControlName="email" id="email" class="form-control" />
+      @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+        <span class="erreur">Email valide requis</span>
+      }
+
+      <label for="password">Mot de passe</label>
+      <input type="password" formControlName="password" id="password" class="form-control" />
+      @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+        <span class="erreur">Mot de passe requis</span>
+      }
+
+      @if (erreur()) {
+        <p class="erreur-globale">{{ erreur() }}</p>
+      }
+
+      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || chargement()">
+        {{ chargement() ? 'Connexion...' : 'Se connecter' }}
+      </button>
+    </form>
+
+    <p class="switch-link">Pas encore de compte ? <a routerLink="/register">S'inscrire</a></p>
+  </div>
+</div>
