@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.pressing-lic.sn/api', // à remplacer par l'URL réelle en production
+  apiUrl: 'https://pressing-api.onrender.com', // à remplacer par l'URL réelle en production
 };
