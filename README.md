@@ -88,10 +88,3 @@ Suit la structure que tu as fournie : pas de suffixe `.component.` dans les noms
 ```bash
 ng generate component mon-dossier/mon-composant
 ```
-
-et il suivra automatiquement cette convention.
-
-## 10. Prochaines étapes
-
-- Éventuellement ajouter l'édition d'un service (le bouton "Edit" de ton exemple `Product.html` n'a pas encore d'équivalent côté services du pressing).
-- Ajouter Chart.js aux dépendances si tu clones ce projet sans `node_modules` : déjà dans `package.json`, `npm install` suffit.
