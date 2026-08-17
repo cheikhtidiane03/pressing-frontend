@@ -1,0 +1,25 @@
+<div class="max-w-4xl mx-auto">
+      <h1 class="page-title">Mes candidatures</h1>
+      <p class="page-subtitle">Suivez l'état de vos candidatures et consultez vos résultats.</p>
+
+      @if (loading()) {
+        <app-loading-block></app-loading-block>
+      } @else {
+        <div class="mt-8 space-y-4">
+          @for (c of candidatures(); track c.id) {
+            <a [routerLink]="['/candidat/candidature', c.id]" class="card block hover:shadow-md transition flex items-center justify-between gap-4">
+              <div>
+                <h3 class="font-semibold text-slate-900 dark:text-white">{{ c.concours.titre }}</h3>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Déposée le {{ c.dateDepot | date:'dd/MM/yyyy' }}</p>
+              </div>
+              <span [ngClass]="statutClass(c.statut)" class="badge whitespace-nowrap">{{ statutLabel(c.statut) }}</span>
+            </a>
+          } @empty {
+            <div class="card text-center py-12">
+              <p class="text-slate-500 dark:text-slate-400">Vous n'avez encore déposé aucune candidature.</p>
+              <a routerLink="/candidat/concours" class="btn-primary inline-flex mt-4">Voir les concours ouverts</a>
+            </div>
+          }
+        </div>
+      }
+    </div>

@@ -1,0 +1,24 @@
+@if (dialog.options(); as opts) {
+      <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+        <div class="w-full max-w-sm rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-2xl animate-[popIn_0.15s_ease-out]">
+          <div class="flex items-center gap-3">
+            <div
+              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
+              [ngClass]="opts.danger ? 'bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400' : 'bg-primary-100 dark:bg-primary-500/10 text-primary-600 dark:text-primary-400'"
+            >
+              <lucide-icon [name]="opts.danger ? 'triangle-alert' : 'circle-help'" [size]="22"></lucide-icon>
+            </div>
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">{{ opts.title }}</h2>
+          </div>
+
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">{{ opts.message }}</p>
+
+          <div class="mt-6 flex justify-end gap-3">
+            <button (click)="dialog.respond(false)" class="btn-secondary">{{ opts.cancelLabel ?? 'Annuler' }}</button>
+            <button (click)="dialog.respond(true)" [class]="opts.danger ? 'btn-danger' : 'btn-primary'">
+              {{ opts.confirmLabel ?? 'Confirmer' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    }

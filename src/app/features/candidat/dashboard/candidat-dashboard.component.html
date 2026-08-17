@@ -1,0 +1,73 @@
+<div class="max-w-5xl mx-auto">
+      <h1 class="page-title">Bonjour {{ auth.currentUser()?.username }}</h1>
+      <p class="page-subtitle">Voici un aperçu de votre espace candidat.</p>
+
+      <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div class="card flex items-center gap-4">
+          <div class="h-12 w-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
+            <lucide-icon name="clipboard-list" [size]="22"></lucide-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Concours ouverts</p>
+            <p class="text-xl font-bold text-slate-900 dark:text-white">{{ concours().length }}</p>
+          </div>
+        </div>
+        <div class="card flex items-center gap-4">
+          <div class="h-12 w-12 rounded-xl bg-purple-100 dark:bg-purple-500/10 flex items-center justify-center text-purple-600 dark:text-purple-400">
+            <lucide-icon name="file-text" [size]="22"></lucide-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Mes candidatures</p>
+            <p class="text-xl font-bold text-slate-900 dark:text-white">{{ candidatures().length }}</p>
+          </div>
+        </div>
+        <div class="card flex items-center gap-4">
+          <div class="h-12 w-12 rounded-xl bg-emerald-100 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+            <lucide-icon name="award" [size]="22"></lucide-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Admis</p>
+            <p class="text-xl font-bold text-emerald-600 dark:text-emerald-400">{{ nbAdmis() }}</p>
+          </div>
+        </div>
+      </div>
+
+      @if (candidatures().length > 0) {
+        <div class="mt-8 card">
+          <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Répartition de mes candidatures</h3>
+          <div class="h-56">
+            <canvas baseChart [data]="statutData()" [type]="'doughnut'" [options]="chartOptions"></canvas>
+          </div>
+        </div>
+      }
+
+      <div class="mt-10 flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Concours récents</h2>
+        <a routerLink="/candidat/concours" class="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700">Voir tout →</a>
+      </div>
+
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        @if (loading()) {
+          <div class="sm:col-span-2"><app-loading-block></app-loading-block></div>
+        } @else {
+          @for (c of concours().slice(0, 4); track c.id) {
+            <a [routerLink]="['/candidat/concours', c.id]" class="card block hover:shadow-md transition">
+              <div class="flex items-start justify-between">
+                <h3 class="font-semibold text-slate-900 dark:text-white">{{ c.titre }}</h3>
+                @if (c.resultatsPublies) {
+                  <span class="badge bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">Résultats publiés</span>
+                } @else {
+                  <span class="badge bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400">Ouvert</span>
+                }
+              </div>
+              <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">{{ c.description }}</p>
+              <p class="mt-3 flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
+                <lucide-icon name="calendar-days" [size]="13"></lucide-icon> Date limite : {{ c.dateLimiteCandidature | date:'dd/MM/yyyy' }}
+              </p>
+            </a>
+          } @empty {
+            <p class="text-sm text-slate-500 dark:text-slate-400">Aucun concours disponible pour le moment.</p>
+          }
+        }
+      </div>
+    </div>

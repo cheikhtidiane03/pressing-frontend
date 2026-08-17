@@ -1,0 +1,72 @@
+<div class="max-w-4xl mx-auto">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="page-title">Salles d'examen</h1>
+          <p class="page-subtitle">Gérez les salles disponibles pour la répartition des candidats.</p>
+        </div>
+        <button (click)="ouvrirCreation()" class="btn-primary">
+          <lucide-icon name="plus" [size]="16"></lucide-icon> Nouvelle salle
+        </button>
+      </div>
+
+      @if (loading()) {
+        <app-loading-block></app-loading-block>
+      } @else {
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          @for (s of salles(); track s.id) {
+            <div class="card">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start gap-3">
+                  <div class="h-10 w-10 rounded-xl bg-primary-100 dark:bg-primary-500/10 flex items-center justify-center text-primary-600 dark:text-primary-400 shrink-0">
+                    <lucide-icon name="door-open" [size]="18"></lucide-icon>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-slate-900 dark:text-white">{{ s.nom }}</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{{ s.localisation }}</p>
+                  </div>
+                </div>
+                <span class="badge bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 whitespace-nowrap">{{ s.capacite }} places</span>
+              </div>
+              <div class="mt-4 flex gap-2 border-t border-slate-100 dark:border-slate-700 pt-3">
+                <button (click)="ouvrirEdition(s)" class="btn-secondary text-xs px-3 py-1.5">
+                  <lucide-icon name="pencil" [size]="13"></lucide-icon> Modifier
+                </button>
+                <button (click)="supprimer(s)" class="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 text-red-600 dark:text-red-400 hover:text-red-700 font-semibold">
+                  <lucide-icon name="trash-2" [size]="13"></lucide-icon> Supprimer
+                </button>
+              </div>
+            </div>
+          } @empty {
+            <p class="col-span-2 text-sm text-slate-500 dark:text-slate-400 text-center py-12">Aucune salle enregistrée.</p>
+          }
+        </div>
+      }
+    </div>
+
+    @if (modalOuvert()) {
+      <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm">
+        <div class="w-full max-w-md rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-xl">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">{{ editionId() ? 'Modifier la salle' : 'Nouvelle salle' }}</h2>
+
+          <div class="mt-5 space-y-4">
+            <div>
+              <label class="label-field">Nom de la salle</label>
+              <input class="input-field" type="text" [(ngModel)]="form.nom" name="nom" />
+            </div>
+            <div>
+              <label class="label-field">Localisation</label>
+              <input class="input-field" type="text" [(ngModel)]="form.localisation" name="localisation" />
+            </div>
+            <div>
+              <label class="label-field">Capacité</label>
+              <input class="input-field" type="number" [(ngModel)]="form.capacite" name="capacite" />
+            </div>
+          </div>
+
+          <div class="mt-6 flex justify-end gap-3">
+            <button (click)="fermerModal()" class="btn-secondary">Annuler</button>
+            <button (click)="enregistrer()" class="btn-primary">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+    }

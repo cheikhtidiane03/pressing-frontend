@@ -1,0 +1,88 @@
+<div class="min-h-screen bg-slate-100 dark:bg-slate-900 transition-colors">
+      <aside
+        class="fixed inset-y-0 left-0 z-40 w-60 transform bg-slate-900 dark:bg-slate-950 transition-transform duration-200 lg:translate-x-0"
+        [class.-translate-x-full]="!mobileOpen()"
+      >
+        <div class="flex h-full flex-col">
+          <div class="flex items-center gap-2.5 px-5 py-5 shrink-0">
+            <div class="h-8 w-8 rounded-lg bg-primary-600 flex items-center justify-center text-white shrink-0">
+              <lucide-icon name="graduation-cap" [size]="17"></lucide-icon>
+            </div>
+            <div class="min-w-0">
+              <span class="block text-sm font-bold text-white leading-tight">SunuXam</span>
+              <span class="block text-xs text-slate-400 truncate">{{ auth.currentUser()?.username }}</span>
+            </div>
+          </div>
+
+          <nav class="flex-1 space-y-0.5 px-3 py-3 overflow-y-auto">
+            <a routerLink="/admin/dashboard" routerLinkActive="bg-primary-600 text-white" [routerLinkActiveOptions]="{exact:true}" class="nav-link">
+              <lucide-icon name="layout-dashboard" [size]="17"></lucide-icon> Tableau de bord
+            </a>
+            <a routerLink="/admin/concours" routerLinkActive="bg-primary-600 text-white" [routerLinkActiveOptions]="{exact:true}" class="nav-link">
+              <lucide-icon name="clipboard-list" [size]="17"></lucide-icon> Concours
+            </a>
+            <a routerLink="/admin/epreuves" routerLinkActive="bg-primary-600 text-white" class="nav-link">
+              <lucide-icon name="list-checks" [size]="17"></lucide-icon> Épreuves
+            </a>
+            <a routerLink="/admin/candidatures" routerLinkActive="bg-primary-600 text-white" class="nav-link">
+              <lucide-icon name="file-text" [size]="17"></lucide-icon> Candidatures
+            </a>
+            <a routerLink="/admin/notes" routerLinkActive="bg-primary-600 text-white" class="nav-link">
+              <lucide-icon name="pencil" [size]="17"></lucide-icon> Notes
+            </a>
+            <a routerLink="/admin/repartition" routerLinkActive="bg-primary-600 text-white" class="nav-link">
+              <lucide-icon name="layout-grid" [size]="17"></lucide-icon> Répartition
+            </a>
+            <a routerLink="/admin/salles" routerLinkActive="bg-primary-600 text-white" class="nav-link">
+              <lucide-icon name="door-open" [size]="17"></lucide-icon> Salles
+            </a>
+            <a routerLink="/admin/utilisateurs" routerLinkActive="bg-primary-600 text-white" class="nav-link">
+              <lucide-icon name="users" [size]="17"></lucide-icon> Utilisateurs
+            </a>
+          </nav>
+
+          <div class="border-t border-white/10 p-3 shrink-0">
+            <div class="flex items-center gap-2.5 rounded-lg bg-white/5 p-2.5">
+              <div class="h-8 w-8 rounded-full bg-primary-600 flex items-center justify-center text-white font-semibold text-xs shrink-0">
+                {{ initiales() }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="truncate text-xs font-medium text-white">{{ auth.currentUser()?.username }}</p>
+                <p class="text-[11px] text-slate-400">Administrateur</p>
+              </div>
+              <button (click)="demanderDeconnexion()" title="Déconnexion" class="text-slate-400 hover:text-red-400 transition">
+                <lucide-icon name="log-out" [size]="16"></lucide-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      @if (mobileOpen()) {
+        <div class="fixed inset-0 z-30 bg-slate-900/40 lg:hidden" (click)="mobileOpen.set(false)"></div>
+      }
+
+      <div class="lg:pl-60">
+        <header class="sticky top-0 z-20 flex items-center justify-between bg-white dark:bg-slate-800 px-4 lg:px-6 py-3 shadow-sm">
+          <div class="flex items-center gap-3">
+            <button (click)="mobileOpen.set(true)" class="lg:hidden text-slate-500 dark:text-slate-300">
+              <lucide-icon name="menu" [size]="20"></lucide-icon>
+            </button>
+            <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Espace administrateur</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <app-theme-toggle></app-theme-toggle>
+            <button class="relative flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 transition">
+              <lucide-icon name="bell" [size]="17"></lucide-icon>
+            </button>
+            <div class="h-8 w-8 rounded-full bg-primary-100 dark:bg-primary-500/20 flex items-center justify-center text-primary-700 dark:text-primary-300 font-semibold text-xs">
+              {{ initiales() }}
+            </div>
+          </div>
+        </header>
+
+        <main class="p-4 lg:p-6">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
+    </div>

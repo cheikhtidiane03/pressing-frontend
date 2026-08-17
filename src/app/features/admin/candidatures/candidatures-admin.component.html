@@ -1,0 +1,52 @@
+<div class="max-w-5xl mx-auto">
+      <a routerLink="/admin/candidatures" class="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
+        <lucide-icon name="arrow-left" [size]="14"></lucide-icon> Retour aux candidatures
+      </a>
+
+      <div class="mt-4 flex items-center justify-between">
+        <div>
+          <h1 class="page-title">Candidatures</h1>
+          @if (concours(); as c) {
+            <p class="page-subtitle">{{ c.titre }}</p>
+          }
+        </div>
+        <a [routerLink]="['/admin/concours', concoursId, 'notes']" class="btn-secondary">
+          <lucide-icon name="pencil" [size]="15"></lucide-icon> Saisir les notes
+        </a>
+      </div>
+
+      @if (loading()) {
+        <app-loading-block></app-loading-block>
+      } @else {
+        <div class="mt-8 space-y-3">
+          @for (c of candidatures(); track c.id) {
+            <div class="card flex items-center justify-between gap-4">
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-slate-900 dark:text-white truncate">{{ c.candidat.prenom }} {{ c.candidat.nom }}</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{{ c.candidat.username }} · déposée le {{ c.dateDepot | date:'dd/MM/yyyy' }}</p>
+                @if (c.piecesJustificatives.length > 0) {
+                  <div class="flex flex-wrap gap-1.5 mt-2">
+                    @for (p of c.piecesJustificatives; track p.id) {
+                      <span class="badge bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">{{ p.type }}</span>
+                    }
+                  </div>
+                }
+              </div>
+              <select
+                [ngModel]="c.statut"
+                (ngModelChange)="changerStatut(c, $event)"
+                class="input-field w-auto text-xs py-1.5 shrink-0"
+              >
+                <option value="EN_ATTENTE">En attente</option>
+                <option value="DOSSIER_COMPLET">Dossier complet</option>
+                <option value="EN_ATTENTE_DELIBERATION">En attente délibération</option>
+                <option value="ADMIS">Admis</option>
+                <option value="REFUSE">Refusé</option>
+              </select>
+            </div>
+          } @empty {
+            <p class="text-sm text-slate-500 dark:text-slate-400 text-center py-12">Aucune candidature pour ce concours.</p>
+          }
+        </div>
+      }
+    </div>

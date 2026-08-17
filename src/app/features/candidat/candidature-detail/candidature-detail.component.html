@@ -1,0 +1,67 @@
+@if (candidature(); as c) {
+      <div class="max-w-2xl mx-auto">
+        <a routerLink="/candidat/mes-candidatures" class="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
+          <lucide-icon name="arrow-left" [size]="14"></lucide-icon> Retour
+        </a>
+
+        <div class="card mt-4">
+          <div class="flex items-start justify-between gap-4">
+            <h1 class="text-xl font-bold text-slate-900 dark:text-white lg:text-xl">{{ c.concours.titre }}</h1>
+            <span [ngClass]="statutClass(c.statut)" class="badge whitespace-nowrap">{{ statutLabel(c.statut) }}</span>
+          </div>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Déposée le {{ c.dateDepot | date:'dd MMMM yyyy à HH:mm' }}</p>
+
+          @if (c.piecesJustificatives.length > 0) {
+            <div class="mt-6">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-2">Pièces déposées</h3>
+              <div class="flex flex-wrap gap-2">
+                @for (p of c.piecesJustificatives; track p.id) {
+                  <span class="badge bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">{{ p.type }}</span>
+                }
+              </div>
+            </div>
+          }
+
+          @if (c.mentionResultat) {
+            <div class="mt-6 rounded-xl p-4 flex items-start gap-3" [ngClass]="c.mentionResultat === 'ADMIS' ? 'bg-emerald-50 dark:bg-emerald-500/10' : 'bg-amber-50 dark:bg-amber-500/10'">
+              <lucide-icon [name]="c.mentionResultat === 'ADMIS' ? 'award' : 'clock'" [size]="20" [ngClass]="c.mentionResultat === 'ADMIS' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'"></lucide-icon>
+              <div>
+                <p class="font-semibold" [ngClass]="c.mentionResultat === 'ADMIS' ? 'text-emerald-800 dark:text-emerald-300' : 'text-amber-800 dark:text-amber-300'">
+                  {{ c.mentionResultat === 'ADMIS' ? 'Admis' : "Liste d'attente" }}
+                </p>
+                @if (c.moyenneGenerale !== null) {
+                  <p class="text-sm mt-1" [ngClass]="c.mentionResultat === 'ADMIS' ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-700 dark:text-amber-400'">
+                    Moyenne générale : {{ c.moyenneGenerale | number:'1.2-2' }}/20
+                  </p>
+                }
+              </div>
+            </div>
+          }
+
+          @if (c.notes.length > 0) {
+            <div class="mt-6">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-2">Notes par épreuve</h3>
+              <div class="space-y-2">
+                @for (n of c.notes; track n.id) {
+                  <div class="flex items-center justify-between rounded-xl border border-slate-200 dark:border-slate-700 px-4 py-2.5 text-sm">
+                    <span class="text-slate-700 dark:text-slate-300">{{ n.epreuve?.nom }}</span>
+                    <span class="font-semibold text-slate-900 dark:text-white">{{ n.valeur }}/20</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          @if (affectation(); as a) {
+            <div class="mt-6 rounded-xl bg-primary-50 dark:bg-primary-500/10 p-4 flex items-start gap-3">
+              <lucide-icon name="door-open" [size]="20" class="text-primary-600 dark:text-primary-400"></lucide-icon>
+              <div>
+                <p class="font-semibold text-primary-800 dark:text-primary-300">Salle d'examen assignée</p>
+                <p class="text-sm text-primary-700 dark:text-primary-400 mt-1">{{ a.salle.nom }} — {{ a.salle.localisation }}</p>
+                <p class="text-sm text-primary-700 dark:text-primary-400">Place n° {{ a.numeroPlace }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }

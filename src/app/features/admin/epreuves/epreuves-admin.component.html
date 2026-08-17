@@ -1,0 +1,67 @@
+<div class="max-w-3xl mx-auto">
+      <a routerLink="/admin/epreuves" class="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
+        <lucide-icon name="arrow-left" [size]="14"></lucide-icon> Retour aux épreuves
+      </a>
+
+      <div class="mt-4 flex items-center justify-between">
+        <div>
+          <h1 class="page-title">Épreuves</h1>
+          @if (concours(); as c) {
+            <p class="page-subtitle">{{ c.titre }}</p>
+          }
+        </div>
+        <button (click)="modalOuvert.set(true)" class="btn-primary">
+          <lucide-icon name="plus" [size]="16"></lucide-icon> Ajouter
+        </button>
+      </div>
+
+      @if (loading()) {
+        <app-loading-block></app-loading-block>
+      } @else {
+        <div class="mt-8 space-y-3">
+          @for (e of epreuves(); track e.id) {
+            <div class="card flex items-center justify-between">
+              <div>
+                <p class="font-semibold text-slate-900 dark:text-white">{{ e.nom }}</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Coefficient {{ e.coefficient }} · {{ e.dureeMinutes }} minutes</p>
+              </div>
+              <button (click)="supprimer(e)" class="inline-flex items-center gap-1.5 text-sm text-red-600 dark:text-red-400 hover:text-red-700 font-semibold">
+                <lucide-icon name="trash-2" [size]="14"></lucide-icon> Supprimer
+              </button>
+            </div>
+          } @empty {
+            <p class="text-sm text-slate-500 dark:text-slate-400 text-center py-12">Aucune épreuve ajoutée pour ce concours.</p>
+          }
+        </div>
+      }
+    </div>
+
+    @if (modalOuvert()) {
+      <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm">
+        <div class="w-full max-w-md rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-xl">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">Nouvelle épreuve</h2>
+
+          <div class="mt-5 space-y-4">
+            <div>
+              <label class="label-field">Nom de l'épreuve</label>
+              <input class="input-field" type="text" [(ngModel)]="form.nom" name="nom" />
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="label-field">Coefficient</label>
+                <input class="input-field" type="number" step="0.5" [(ngModel)]="form.coefficient" name="coefficient" />
+              </div>
+              <div>
+                <label class="label-field">Durée (minutes)</label>
+                <input class="input-field" type="number" [(ngModel)]="form.dureeMinutes" name="duree" />
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex justify-end gap-3">
+            <button (click)="modalOuvert.set(false)" class="btn-secondary">Annuler</button>
+            <button (click)="ajouter()" class="btn-primary">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    }
